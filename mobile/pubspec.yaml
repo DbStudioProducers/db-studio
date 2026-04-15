@@ -1,0 +1,14 @@
+name: db_studio_mobile
+description: Receptor dB Studio.
+version: 1.0.1+1
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  http: ^1.1.0
+  url_launcher: ^6.2.1
+  ffi: ^2.1.0
+flutter:
+  uses-material-design: true
