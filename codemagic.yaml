@@ -1,0 +1,67 @@
+workflows:
+  # 1. ANDROID (APK)
+  android-build:
+    name: dB Studio Mobile (Android)
+    instance_type: mac_mini_m1
+    working_directory: mobile
+    scripts:
+      - name: Setup Project
+        script: | 
+          flutter channel stable
+          flutter upgrade
+          flutter create --force --platforms=android .
+      - name: Build APK
+        script: flutter build apk --release -t lib/main.dart --build-name=1.0.1 --build-number=1
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+    publishing:
+      email:
+        recipients: [SEU_EMAIL_AQUI]
+
+  # 2. iOS (IPA - Requer conta Apple para instalar)
+  ios-build:
+    name: dB Studio Mobile (iOS)
+    instance_type: mac_mini_m1
+    working_directory: mobile
+    scripts:
+      - name: Setup Project
+        script: flutter create --force --platforms=ios .
+      - name: Build IPA
+        script: flutter build ipa --release --no-codesign -t lib/main.dart
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients: [SEU_EMAIL_AQUI]
+
+  # 3. WINDOWS (EXE)
+  windows-build:
+    name: dB Studio Desktop (Windows)
+    instance_type: windows_x2
+    working_directory: desktop
+    scripts:
+      - name: Build EXE
+        script: |
+          cmake -B build -S . -G "Visual Studio 17 2022" -A x64
+          cmake --build build --config Release
+    artifacts:
+      - build/Release/*.exe
+    publishing:
+      email:
+        recipients: [SEU_EMAIL_AQUI]
+
+  # 4. macOS (APP)
+  macos-desktop-build:
+    name: dB Studio Desktop (Mac)
+    instance_type: mac_mini_m1
+    working_directory: desktop
+    scripts:
+      - name: Build Mac App
+        script: |
+          cmake -B build -S . -G "Xcode"
+          cmake --build build --config Release
+    artifacts:
+      - build/dB_Studio_artefacts/Release/*.app
+    publishing:
+      email:
+        recipients: [SEU_EMAIL_AQUI]
