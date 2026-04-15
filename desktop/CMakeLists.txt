@@ -1,1 +1,12 @@
-
+cmake_minimum_required(VERSION 3.15)
+project(dB_Studio_Desktop VERSION 1.0.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+include(FetchContent)
+FetchContent_Declare(juce GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 7.0.5)
+FetchContent_MakeAvailable(juce)
+juce_add_gui_app(dB_Studio PRODUCT_NAME "dB Studio" BUNDLE_ID "com.dbstudio.host")
+target_link_libraries(dB_Studio PRIVATE juce::juce_audio_utils juce::juce_audio_devices juce::juce_network juce::juce_dsp)
+target_sources(dB_Studio PRIVATE Main.cpp)
+if(MSVC)
+    target_compile_definitions(dB_Studio PRIVATE JUCE_ASIO=1)
+endif()
