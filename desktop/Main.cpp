@@ -40,10 +40,10 @@ class MainComponent : public Component {
 public:
     MainComponent() {
         setSize(500, 350); addAndMakeVisible(recButton);
-        recButton.setButtonText("GRAVAR MULTITRACK");
+        recButton.setButtonText("GRAVAR NO PC");
         recButton.onClick = [this] {
             if (!recording) { streamer.startRecording(File::getSpecialLocation(File::userDesktopDirectory).getChildFile("db_studio_rec.wav")); recButton.setButtonText("GRAVANDO..."); recording = true; }
-            else { streamer.stopRecording(); recButton.setButtonText("GRAVAR MULTITRACK"); recording = false; }
+            else { streamer.stopRecording(); recButton.setButtonText("GRAVAR NO PC"); recording = false; }
         };
         deviceManager.initialiseWithDefaultDevices(2, 2); deviceManager.addAudioCallback(&streamer);
     }
