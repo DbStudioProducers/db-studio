@@ -1,59 +1,71 @@
 workflows:
-  # 1. ANDROID (APK)
+  # 1. ANDROID (RECEPTOR)
   android-build:
     name: dB Studio Mobile (Android)
     instance_type: mac_mini_m1
+    max_build_duration: 30
     working_directory: mobile
     scripts:
-      - name: Setup Project
-        script: | 
+      - name: Setup and Generate Android Folder
+        script: |
           flutter channel stable
           flutter upgrade
-          flutter create --force --platforms=android .
+          flutter create --platforms=android .
+          flutter pub get
       - name: Build APK
-        script: flutter build apk --release -t lib/main.dart --build-name=1.0.1 --build-number=1
+        script: |
+          flutter build apk --release -t lib/main.dart --build-name=1.0.1 --build-number=1
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
     publishing:
       email:
         recipients: yggdrasilagencia@gmail.com
 
-  # 2. iOS (IPA - Requer conta Apple para instalar)
+  # 2. iOS (RECEPTOR - Gerando IPA sem assinatura para teste)
   ios-build:
     name: dB Studio Mobile (iOS)
     instance_type: mac_mini_m1
+    max_build_duration: 30
     working_directory: mobile
     scripts:
-      - name: Setup Project
-        script: flutter create --force --platforms=ios .
-      - name: Build IPA
-        script: flutter build ipa --release --no-codesign -t lib/main.dart
+      - name: Setup and Generate iOS Folder
+        script: |
+          flutter channel stable
+          flutter create --platforms=ios .
+          flutter pub get
+      - name: Build iOS IPA
+        script: |
+          # O comando --no-codesign permite gerar o arquivo sem conta de desenvolvedor paga
+          flutter build ipa --release --no-codesign -t lib/main.dart
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
       email:
         recipients: yggdrasilagencia@gmail.com
 
-  # 3. WINDOWS (EXE)
+  # 3. WINDOWS (HOST - C++ JUCE)
   windows-build:
     name: dB Studio Desktop (Windows)
     instance_type: windows_x2
+    max_build_duration: 60
     working_directory: desktop
     scripts:
-      - name: Build EXE
+      - name: Build Windows EXE
         script: |
           cmake -B build -S . -G "Visual Studio 17 2022" -A x64
           cmake --build build --config Release
     artifacts:
       - build/Release/*.exe
+      - build/dB_Studio_artefacts/Release/*.exe
     publishing:
       email:
         recipients: yggdrasilagencia@gmail.com
 
-  # 4. macOS (APP)
-  macos-desktop-build:
+  # 4. macOS (HOST - C++ JUCE)
+  macos-build:
     name: dB Studio Desktop (Mac)
     instance_type: mac_mini_m1
+    max_build_duration: 60
     working_directory: desktop
     scripts:
       - name: Build Mac App
@@ -62,6 +74,7 @@ workflows:
           cmake --build build --config Release
     artifacts:
       - build/dB_Studio_artefacts/Release/*.app
+      - build/Release/*.app
     publishing:
       email:
         recipients: yggdrasilagencia@gmail.com
