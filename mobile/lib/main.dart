@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
 
 void main() => runApp(const DBStudioApp());
 
@@ -27,7 +24,6 @@ class MixerPage extends StatefulWidget {
 }
 
 class _MixerPageState extends State<MixerPage> {
-  final String currentVersion = "1.0.1";
   final List<Map<String, dynamic>> channels = [
     {'name': 'VOZ', 'level': 0.4}, {'name': 'GTR', 'level': 0.6},
     {'name': 'KEYS', 'level': 0.3}, {'name': 'MASTER', 'level': 0.7},
