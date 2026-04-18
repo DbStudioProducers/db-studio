@@ -16,7 +16,7 @@ workflows:
       - build/app/outputs/flutter-apk/*.apk
     publishing:
       email:
-        recipients: [yggdrasilagencia@gmail.com]
+        recipients: yggdrasilagencia@gmail.com
 
   # 2. iOS (IPA - Requer conta Apple para instalar)
   ios-build:
@@ -32,7 +32,7 @@ workflows:
       - build/ios/ipa/*.ipa
     publishing:
       email:
-        recipients: [yggdrasilagencia@gmail.com]
+        recipients: yggdrasilagencia@gmail.com
 
   # 3. WINDOWS (EXE)
   windows-build:
@@ -48,7 +48,7 @@ workflows:
       - build/Release/*.exe
     publishing:
       email:
-        recipients: [yggdrasilagencia@gmail.com]
+        recipients: yggdrasilagencia@gmail.com
 
   # 4. macOS (APP)
   macos-desktop-build:
@@ -64,4 +64,4 @@ workflows:
       - build/dB_Studio_artefacts/Release/*.app
     publishing:
       email:
-        recipients: [yggdrasilagencia@gmail.com]
+        recipients: yggdrasilagencia@gmail.com
